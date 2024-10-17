@@ -3,7 +3,6 @@ const exec = require('@actions/exec');
 
 const messages = {};
 messages.exceptList = 'Source branch is in except list. Check was skipped';
-messages.squash = 'Only 1 commit is possible in pull request. Please squash your commits';
 
 try {
     const sourceBranch = core.getInput('source-branch');
@@ -17,7 +16,7 @@ try {
         getCommitsCount(sourceBranch, targetBranch)
             .then(currentCommitsCount => {
                 if (currentCommitsCount > commitsCount) {
-                    core.setFailed(messages.squash);
+                    core.setFailed(`Only ${commitsCount} commits are allowed in a pull request. Please squash your commits`);
                 }
             });
     }
